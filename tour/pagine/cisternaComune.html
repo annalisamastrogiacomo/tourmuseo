@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La cisterna sotto il comune</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    color: #2e2e2e;
+    background: #fff;
+  }
+
+  img { display: block; max-width: 100%; }
+  section { display: block; margin: 0; }
+
+  /* ===== HERO =====
+     aspect-ratio: 16/9 mantiene le proporzioni dell'immagine su tutti i
+     dispositivi senza usare height fissa o 100vh.
+     Su mobile si restringe proporzionalmente in automatico.
+     max-height evita che diventi troppo alta su schermi molto larghi. */
+  .hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 480px;
+  overflow: hidden;
+}
+
+  /* L'immagine riempie il contenitore mantenendo le proporzioni */
+  .hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Overlay scuro */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1;
+  }
+
+  /* Testo sovrapposto, centrato */
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 24px;
+  }
+
+  .hero-content h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 58px);
+    letter-spacing: 4px;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.6);
+    line-height: 1.1;
+  }
+
+  .hero-content p {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(16px, 2vw, 24px);
+    margin-top: 12px;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  /* ===== DECORAZIONE ORO ===== */
+  .gold-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 0 14px;
+  }
+  .gold-line::before,
+  .gold-line::after {
+    content: "";
+    flex: 1;
+    max-width: 70px;
+    height: 1px;
+    background: #c9ab81;
+  }
+
+  /* ===== SEZIONE ===== */
+  .section {
+    padding: 100px 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ===== TITOLO ===== */
+  .section-title {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .label {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #c9ab81;
+  margin-bottom: 12px;
+}
+
+  .section-title h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(26px, 3.5vw, 36px);
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  /* ===== TESTO ===== */
+  .container p {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    line-height: 1.95;
+    color: #444;
+    margin-bottom: 28px;
+  }
+
+  .container h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 400;
+    color: #2e2e2e;
+    margin: 60px 0 24px;
+    letter-spacing: 0.5px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #c9ab81;
+  }
+
+  /* ===== IMMAGINI ===== */
+  .container img {
+    width: 100%;
+    margin: 50px 0 14px;
+    border-radius: 2px;
+  }
+
+  .caption {
+    text-align: center;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #999;
+    margin-bottom: 44px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== CITAZIONE ===== */
+  blockquote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.7;
+    border-left: 2px solid #c9ab81;
+    padding: 8px 0 8px 24px;
+    margin: 50px 0;
+    color: #c9ab81;
+  }
+	blockquote cite {
+	  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #000;
+   text-align: center;
+}
+blockquote .author-role {
+  display: block;
+  margin-top: 4px;
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #444;
+  text-align: center;
+}
+  /* ===== VIDEO ===== */
+  .video-wrapper {
+    margin: 50px 0 14px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .video-wrapper video {
+    width: 100%;
+    display: block;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: #111;
+    color: #999;
+    padding: 32px 60px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer span { color: #ccc; }
+/* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .two-col, .two-col.reverse { flex-direction: column; }
+    .two-col .col-img { flex: 0 0 auto; height: 280px; }
+    .two-col .col-text { padding: 40px 28px; }
+    .section { padding: 70px 0; }
+    .footer { padding: 24px; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+
+<div class="hero">
+  <img src="../media/immagini/chiostro2.jpeg" alt="Il Chiostro Benedettino di Atri">
+  <div class="hero__overlay"></div>
+  <div class="hero-content">
+    <h1>Le grandi cisterne romane</h1>
+  </div>
+</div>
+<!-- SEZIONE TESTO -->
+<section class="section">
+  <div class="container">
+
+    <div class="section-title">
+      <span class="label">Approfondimento</span>
+      <div class="gold-line"><h2>La cisterna sotto il Palazzo Ducale</h2></div>
+    </div>
+
+    <p style="text-align: justify;">Sotto il Palazzo Ducale di Atri si nasconde un luogo che racconta secoli di storia. 
+	Una serie di stanze utilizzate prima come cisterna, successivamente come scuderie ma anche come 
+	sotteranei dalla famiglia Acquaviva.</p>
+
+    
+
+    <h3>Periodo romano</h3>
+
+    <p style="text-align: justify;"> In età antica qui si trovava il foro, e la cisterna vera iniziava più avanti, dove gli ambienti diventavano più ampi e funzionali alla raccolta dell’acqua. Quando Atri era ancora l'antica Hatria, i Romani sfruttarono la posizione elevata del colle centrale per costruire una grande cisterna sotterranea capace di raccogliere e distribuire l'acqua alla città.
+	  Sotto il foro imperiale si estendevano ambienti più profondi e regolari, progettati per contenere grandi quantità di acqua e garantire un approvvigionamento stabile alla popolazione.
+	  Anche se nei secoli successivi questi spazi furono trasformati, l'impianto romano continua ad essere il nucleo più antico e riconoscibile dell'intero complesso.</p>
+	<img src="../media/immagini/primastanza.jpg" alt="CisternaComune">
+    <div class="caption">Interno della cisterna</div> 
+	
+	<h3>Uso nel medioevo</h3>
+    <p style="text-align: justify;">Con le invasioni barbariche la popolazione si concentra sul colle centrale, abbandonando l'uso delle piazze per la raccolta dell'acqua, poichè le fontaneantivano già un approvvigionamento sufficiente.
+	  Sopra l'antico foro viene costruito il palazzo del vicerè del Regno di Napoli, dato che l'Abruzzo ne faceva parte, e l'area assume un ruolo amministrativo e difensivo.
+    </p>
+	 <img src="../media/immagini/cisternaMedioevo.jpg" alt="CisternaComune">
+
+<h3>Età degli Acquaviva</h3>
+<p style="text-align: justify;">Atri era un comune libero, ma gli Acquaviva, già potenti in tutto il Teramano, acquistano la città dal re di Napoli in cambio di finanziamenti militari. Gli atriani non dimenticheranno mai questo gesto.
+La famiglia si stabilisce nel palazzo del vicerè e trasforma le prime due stanze sotteranee in piccoli ambienti per cavalli, accessibioli tramite una rampa oggi murata. Non erano vere scuderie, ma spazi di servizio legati alla vita quotidiana del palazzo.
+ <img src="../media/immagini/cisternaAcquaviva.jpg" alt="CisternaComune">
+ 
+ <h3>Riscoperta moderna</h3>
+ <p style="text-align: justify;">Sotto questi ambienti si trova un pozzo molto profondo, che scende ancora più in basso rispetto al livello della cisterna. La sua presenza mostra quanto complesso fosse il sistema sotteraneo.
+ Oggi questi spazi sono visitabili e permettono di leggere, attraverso le loro trasformazini, la storia politica e sociale della città.</p>
+<img src="../media/immagini/stanzaSedie.jpg" alt="CisternaComune">
+ </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span style="color:#fff;">© Studenti 3A Scienze Applicate – Polo Liceale Saffo, 2026 | In collaborazione con il Museo Capitolare di Atri</span>
+</footer>
+
+</body>
+</html>

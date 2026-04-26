@@ -1,0 +1,877 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400&display=swap');
+
+/* =====================================================
+   CSS VARIABLES — palette e font centralizzati
+   ===================================================== */
+:root {
+  --gold:          #9a7f55;
+  --gold-border:   #d4bc95;
+  --gold-100:      rgba(201, 171, 129, 0.10);
+  --gold-200:      rgba(201, 171, 129, 0.15);
+  --gold-300:      rgba(201, 171, 129, 0.20);
+  --gold-400:      rgba(201, 171, 129, 0.40);
+  --gold-600:      rgba(201, 171, 129, 0.60);
+
+  --panel-bg:      rgba(10, 10, 10, 0.75);
+  --panel-bg-dark: rgba(10, 10, 10, 0.85);
+
+  --popup-bg:      #e8e0d4;
+  --popup-border:  rgba(100, 80, 50, 0.15);
+  --popup-sep:     rgba(150, 120, 80, 0.20);
+  --header-bg:     #c8bfb2;
+
+  --text-light:    #f5ece0;
+  --text-dark:     #1a1410;
+  --text-mid:      rgba(40, 30, 20, 0.65);
+  --text-muted:    rgba(245, 236, 224, 0.75);
+
+  --font-serif:    'Playfair Display', Georgia, serif;
+  --font-sans:     'Inter', system-ui, sans-serif;
+
+  --radius-btn:    5px;
+  --ctrl-size:     44px;
+  --ctrl-size-mob: 50px;
+}
+
+/* =====================================================
+   RESET GLOBALE
+   ===================================================== */
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+}
+
+a, a:hover, a:active, a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =====================================================
+   PANORAMA
+   ===================================================== */
+#pano {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+}
+
+/* =====================================================
+   TITLE BAR
+   ===================================================== */
+#titleBar {
+  position: absolute;
+  top: 0; left: 0;
+  right: var(--ctrl-size);
+  height: var(--ctrl-size);
+  text-align: center;
+}
+
+.mobile #titleBar {
+  height: var(--ctrl-size-mob);
+  right: var(--ctrl-size-mob);
+}
+
+body.fullscreen-enabled #titleBar        { right: calc(var(--ctrl-size) * 2); }
+body.fullscreen-enabled.mobile #titleBar { right: calc(var(--ctrl-size-mob) * 2); }
+body.multiple-scenes #titleBar           { left: var(--ctrl-size); }
+body.multiple-scenes.mobile #titleBar    { left: var(--ctrl-size-mob); }
+
+#titleBar .sceneName {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  background: var(--panel-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gold-300);
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.mobile #titleBar .sceneName { font-size: 14px; }
+
+/* =====================================================
+   PULSANTE FULLSCREEN
+   ===================================================== */
+#fullscreenToggle {
+  display: none;
+  position: absolute;
+  top: 0; right: 0;
+  width: var(--ctrl-size);
+  height: var(--ctrl-size);
+  padding: 0;
+  background: var(--panel-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gold-300);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.mobile #fullscreenToggle {
+  width: var(--ctrl-size-mob);
+  height: var(--ctrl-size-mob);
+}
+
+body.fullscreen-enabled #fullscreenToggle { display: block; }
+
+/* =====================================================
+   PULSANTE AUTOROTATE
+   ===================================================== */
+#autorotateToggle {
+  display: block;
+  position: absolute;
+  top: 0; right: 0;
+  width: var(--ctrl-size);
+  height: var(--ctrl-size);
+  padding: 0;
+  background: var(--panel-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gold-300);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.mobile #autorotateToggle {
+  width: var(--ctrl-size-mob);
+  height: var(--ctrl-size-mob);
+}
+
+body.fullscreen-enabled #autorotateToggle        { right: var(--ctrl-size); }
+body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); }
+
+/* Icone condivise tra i pulsanti controllo */
+#fullscreenToggle .icon,
+#autorotateToggle .icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px; height: 20px;
+  opacity: 0.85;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.2s ease;
+}
+
+.mobile #fullscreenToggle .icon,
+.mobile #autorotateToggle .icon { width: 24px; height: 24px; }
+
+.no-touch #fullscreenToggle:hover,
+.no-touch #autorotateToggle:hover { opacity: 1; }
+
+.no-touch #fullscreenToggle:hover .icon,
+.no-touch #autorotateToggle:hover .icon { opacity: 1; }
+
+#fullscreenToggle .icon.on,
+#autorotateToggle .icon.on             { display: none; }
+#fullscreenToggle .icon.off,
+#autorotateToggle .icon.off            { display: block; }
+#fullscreenToggle.enabled .icon.on,
+#autorotateToggle.enabled .icon.on     { display: block; }
+#fullscreenToggle.enabled .icon.off,
+#autorotateToggle.enabled .icon.off    { display: none; }
+
+/* =====================================================
+   SCENE LIST TOGGLE
+   ===================================================== */
+#sceneListToggle {
+  position: absolute;
+  top: 0; left: 0;
+  width: var(--ctrl-size);
+  height: var(--ctrl-size);
+  padding: 0;
+  background: var(--panel-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gold-300);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.mobile #sceneListToggle {
+  width: var(--ctrl-size-mob);
+  height: var(--ctrl-size-mob);
+}
+
+#sceneListToggle .text { display: none; }
+
+#sceneListToggle .icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px; height: 20px;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.no-touch #sceneListToggle:hover .icon { opacity: 1; }
+
+#sceneListToggle .icon.on          { display: none; }
+#sceneListToggle .icon.off         { display: block; }
+#sceneListToggle.enabled .icon.on  { display: block; }
+#sceneListToggle.enabled .icon.off { display: none; }
+
+/* =====================================================
+   SCENE LIST
+   ===================================================== */
+#sceneList {
+  position: absolute;
+  top: 0; left: calc(-1 * 220px);
+  padding-top: var(--ctrl-size);
+  width: 220px;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: margin-left 0.5s ease-in-out;
+}
+
+.mobile #sceneList {
+  padding-top: var(--ctrl-size-mob);
+  width: 100%;
+  height: 100%;
+  left: -100%;
+}
+
+#sceneList .scenes {
+  width: 100%;
+  background: var(--panel-bg-dark);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid var(--gold-200);
+}
+
+.mobile #sceneList .scenes { height: 100%; }
+
+#sceneList.enabled        { margin-left: 220px; }
+.mobile #sceneList.enabled { margin-left: 100%; }
+
+body.single-scene #sceneList,
+body.single-scene #sceneListToggle { display: none; }
+
+#sceneList .scene {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid var(--gold-100);
+  transition: background 0.2s ease;
+}
+
+.mobile #sceneList .scene { height: 48px; }
+
+#sceneList .scene .text {
+  width: 100%;
+  height: 100%;
+  padding: 0 18px;
+  margin: 0;
+  list-style: none;
+  line-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.mobile #sceneList .scene .text { line-height: 48px; }
+
+.no-touch #sceneList .scene:hover              { background: rgba(201, 171, 129, 0.12); }
+.no-touch #sceneList .scene:hover .text        { color: var(--text-light); }
+#sceneList .scene.current                      { background: var(--gold-100); }
+#sceneList .scene.current .text                { color: var(--text-light); }
+
+/* =====================================================
+   LINK HOTSPOT
+   ===================================================== */
+.link-hotspot {
+  width: 60px; height: 60px;
+  margin-left: -22px; margin-top: -22px;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.no-touch .link-hotspot:hover { opacity: 1; }
+
+.mobile .link-hotspot {
+  width: 70px; height: 70px;
+  top: 19px;
+}
+
+.link-hotspot-icon {
+  width: 56px; height: 56px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .link-hotspot-icon {
+    width: 28px; height: 28px;
+    line-height: 28px;
+    font-size: 14px !important;
+  }
+}
+
+.link-hotspot-tooltip {
+  position: absolute;
+  left: 100%; top: 14px;
+  margin-left: 2px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  max-width: 300px;
+  padding: 8px 14px;
+  border-radius: 4px 10px 10px 10px;
+  border-top: 3px solid var(--gold-border);
+  border-right: 1px solid var(--popup-border);
+  border-bottom: 1px solid var(--popup-border);
+  border-left: 1px solid var(--popup-border);
+  background: var(--popup-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  color: var(--text-dark);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.no-touch .link-hotspot:hover .link-hotspot-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+
+/* Fallback IE8-10 */
+.tooltip-fallback .link-hotspot-tooltip { display: none; }
+.no-touch .tooltip-fallback .link-hotspot:hover .link-hotspot-tooltip { display: block; }
+
+/* =====================================================
+   INFO HOTSPOT — base Marzipano (desktop)
+   ===================================================== */
+.info-hotspot {
+  line-height: 1.2em;
+  opacity: 0.9;
+  transition: opacity 0.2s 0.2s;
+}
+
+.no-touch .info-hotspot:hover {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.info-hotspot.visible { opacity: 1; }
+
+.info-hotspot .info-hotspot-header {
+  width: 40px; height: 40px;
+  border-radius: 20px;
+  background-color: rgb(103, 115, 131);
+  cursor: pointer;
+  transition: width 0.3s ease-in-out 0.5s, border-radius 0.3s ease-in-out 0.5s;
+}
+
+.mobile .info-hotspot .info-hotspot-header {
+  width: 50px; height: 50px;
+  border-radius: 25px;
+}
+
+.desktop.no-touch .info-hotspot .info-hotspot-header:hover {
+  width: 260px; border-radius: 5px;
+  transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+}
+
+.desktop .info-hotspot.visible .info-hotspot-header,
+.desktop.no-touch .info-hotspot.visible .info-hotspot-header:hover {
+  width: 260px;
+  border-radius: 5px 0 0 0;
+  transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+}
+
+.info-hotspot .info-hotspot-icon-wrapper { width: 40px; height: 40px; }
+.mobile .info-hotspot .info-hotspot-icon-wrapper { width: 50px; height: 50px; }
+.info-hotspot .info-hotspot-icon { width: 90%; height: 90%; margin: 5%; }
+
+.info-hotspot .info-hotspot-title-wrapper {
+  position: absolute;
+  left: 40px; top: 0;
+  width: 0; height: 40px;
+  padding: 0; overflow: hidden;
+  transition: width 0s 0.4s, padding 0s 0.4s;
+}
+
+.desktop .info-hotspot.visible .info-hotspot-title-wrapper,
+.desktop.no-touch .info-hotspot .info-hotspot-header:hover .info-hotspot-title-wrapper {
+  width: 220px; padding: 0 5px;
+  transition: width 0s 0.4s, padding 0s 0.4s;
+}
+
+.info-hotspot .info-hotspot-title-wrapper:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.info-hotspot .info-hotspot-title {
+  display: inline-block;
+  vertical-align: middle;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.info-hotspot .info-hotspot-close-wrapper {
+  position: absolute;
+  left: 260px; top: 0;
+  height: 40px; width: 40px;
+  border-top-right-radius: 5px;
+  background-color: rgb(78, 88, 104);
+  visibility: hidden;
+  transform: perspective(200px) rotateY(90deg);
+  transform-origin: 0 50% 0;
+  transition: transform 0.3s 0.3s, visibility 0s 0.6s;
+}
+
+.desktop .info-hotspot.visible .info-hotspot-close-wrapper {
+  visibility: visible;
+  transform: perspective(200px) rotateY(0deg);
+  transition: transform 0.3s, visibility 0s 0s;
+}
+
+.info-hotspot .info-hotspot-close-icon { width: 70%; height: 70%; margin: 15%; }
+
+.info-hotspot .info-hotspot-text {
+  position: absolute;
+  width: 300px;
+  max-height: 200px;
+  top: 40px; left: 0;
+  padding: 10px;
+  background-color: rgb(58, 68, 84);
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  overflow-y: auto;
+  visibility: hidden;
+  transform: perspective(200px) rotateX(-89.999deg);
+  transform-origin: 50% 0 0;
+  transition: transform 0.3s, visibility 0s 0.3s;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.desktop .info-hotspot.visible .info-hotspot-text {
+  visibility: visible;
+  transform: perspective(200px) rotateX(0deg);
+  transition: transform 0.3s 0.3s, visibility 0s 0s;
+}
+
+/* =====================================================
+   INFO HOTSPOT MODAL — solo mobile
+   ===================================================== */
+.desktop .info-hotspot-modal { display: none; }
+
+.info-hotspot-modal {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  z-index: 11000;
+  background-color: rgba(0, 0, 0, 0.72);
+  line-height: 1.2em;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out 0.5s, visibility 0s 0.7s;
+}
+
+.info-hotspot-modal.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s ease-in-out, visibility 0s 0s;
+}
+
+/* Header nascosto: gli elementi interni sono tutti display:none,
+   il div vuoto creerebbe un rettangolo indesiderato */
+.info-hotspot-modal .info-hotspot-header {
+  display: none !important;
+}
+
+/* Testo occupa tutta l'area senza l'header sopra */
+.info-hotspot-modal .info-hotspot-text {
+  position: absolute !important;
+  top: 30px !important;
+  bottom: 20px !important;
+  left: 10px !important;
+  right: 10px !important;
+  padding: 10px !important;
+  background: var(--popup-bg) !important;
+  border-top: 3px solid var(--gold-border) !important;
+  border-radius: 4px 12px 12px 12px !important;
+  overflow-y: auto !important;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.info-hotspot-modal.visible .info-hotspot-text {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out 0.4s;
+}
+
+.info-hotspot-modal .info-hotspot-icon-wrapper { width: 50px; height: 50px; }
+.info-hotspot-modal .info-hotspot-icon { width: 90%; height: 90%; margin: 5%; }
+
+.info-hotspot-modal .info-hotspot-title-wrapper {
+  position: absolute;
+  top: 0; left: 50px; right: 50px;
+  width: auto; height: 50px;
+  padding: 0 10px;
+}
+
+.info-hotspot-modal .info-hotspot-title-wrapper:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.info-hotspot-modal .info-hotspot-title {
+  display: inline-block;
+  vertical-align: middle;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* Bottone chiudi originale Marzipano nel modal */
+.info-hotspot-modal .info-hotspot-close-wrapper {
+  position: absolute;
+  top: 0; right: 0;
+  width: 50px; height: 50px;
+  background-color: rgba(150, 120, 80, 0.25) !important;
+  cursor: pointer;
+}
+
+.info-hotspot-modal .info-hotspot-close-icon {
+  width: 70%; height: 70%; margin: 15%;
+  filter: brightness(0) invert(0.3) !important;
+}
+
+/* =====================================================
+   VIEW CONTROL BUTTONS
+   ===================================================== */
+.viewControlButton {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 32px; height: 32px;
+  padding: 0;
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--gold-300);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+body.view-control-buttons .viewControlButton { display: block; }
+
+.no-touch .viewControlButton:hover {
+  background: rgba(201, 171, 129, 0.2) !important;
+  border-color: var(--gold-600);
+}
+
+@media (max-width: 600px) {
+  body.view-control-buttons .viewControlButton { display: none; }
+}
+
+.viewControlButton .icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px; height: 16px;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.no-touch .viewControlButton:hover .icon { opacity: 1; }
+
+.viewControlButton-1 { margin-left: -141px; }
+.viewControlButton-2 { margin-left:  -97px; }
+.viewControlButton-3 { margin-left:  -53px; }
+.viewControlButton-4 { margin-left:   -9px; }
+.viewControlButton-5 { margin-left:   35px; }
+.viewControlButton-6 { margin-left:   79px; }
+
+/* =====================================================
+   TEMA MUSEO — HOTSPOT CERCHIO PULSANTE
+   ===================================================== */
+
+/* Nasconde elementi originali Marzipano non usati */
+.info-hotspot-icon-wrapper,
+.info-hotspot-title-wrapper,
+.info-hotspot-close-wrapper,
+.info-hotspot-close-icon {
+  display: none !important;
+}
+
+/* Cerchio hotspot */
+.info-hotspot .info-hotspot-header {
+  position: relative;
+  z-index: 1;
+  overflow: visible !important;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  box-shadow:
+    0 0 0 5px rgba(255, 255, 255, 0.5),
+    0 0 18px rgba(255, 255, 255, 0.4),
+    0 6px 18px rgba(0, 0, 0, 0.5) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.desktop.no-touch .info-hotspot:not(.visible) .info-hotspot-header:hover {
+  transform: scale(1.25) !important;
+  box-shadow:
+    0 0 0 7px rgba(255, 255, 255, 0.6),
+    0 0 24px rgba(255, 255, 255, 0.5),
+    0 8px 22px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* =====================================================
+   TEMA MUSEO — POPUP DESKTOP
+   ===================================================== */
+.info-hotspot .info-hotspot-text {
+  font-family: var(--font-sans) !important;
+  position: relative !important;
+  width: 300px !important;
+  max-height: 420px !important;
+  top: 38px !important;
+  left: -4px !important;
+  padding: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: var(--popup-bg) !important;
+  border-radius: 4px 12px 12px 12px !important;
+  border-top: 3px solid var(--gold-border) !important;
+  border-right: 1px solid var(--popup-border) !important;
+  border-bottom: 1px solid var(--popup-border) !important;
+  border-left: 1px solid var(--popup-border) !important;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(150, 120, 80, 0.1) !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transform: translateY(-6px) !important;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease,
+    visibility 0s 0.35s !important;
+}
+
+/* Scrollbar discreta */
+.info-hotspot .info-hotspot-text::-webkit-scrollbar { width: 4px; }
+.info-hotspot .info-hotspot-text::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 6px 0 12px;
+}
+.info-hotspot .info-hotspot-text::-webkit-scrollbar-thumb {
+  background: rgba(150, 120, 80, 0.3);
+  border-radius: 2px;
+}
+.info-hotspot .info-hotspot-text::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 120, 80, 0.6);
+}
+
+.desktop .info-hotspot.visible .info-hotspot-text {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.25s ease,
+    visibility 0s 0s !important;
+}
+
+/* =====================================================
+   BOTTONE CHIUDI CUSTOM (desktop e mobile)
+   ===================================================== */
+.custom-close-btn {
+  position: absolute !important;
+  top: 8px !important;
+  right: 10px !important;
+  width: 22px !important;
+  height: 22px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: rgba(201, 171, 129, 0.12) !important;
+  border: 1px solid var(--gold-400) !important;
+  border-radius: 50% !important;
+  color: var(--gold) !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 10 !important;
+  font-family: inherit !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  pointer-events: all !important;
+  touch-action: manipulation !important;
+  transition: background 0.15s ease !important;
+}
+
+.desktop.no-touch .custom-close-btn:hover {
+  background: rgba(201, 171, 129, 0.3) !important;
+}
+
+/* Bottone ✕ nel modal mobile: sfondo solido per leggibilità su sfondo chiaro */
+.info-hotspot-modal .custom-close-btn {
+  position: fixed !important;
+  top: 24px !important;
+  right: 20px !important;
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 15px !important;
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: #fff !important;
+  z-index: 12000 !important;
+  pointer-events: all !important;
+  touch-action: manipulation !important;
+}
+
+/* =====================================================
+   CONTENUTO INTERNO POPUP
+   ===================================================== */
+
+/* Etichetta "SCHEDA OPERA" */
+.info-hotspot-text::before {
+  content: "SCHEDA OPERA";
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  color: var(--gold);
+  padding: 14px 18px 11px;
+  border-bottom: 1px solid var(--popup-sep);
+  text-transform: uppercase;
+}
+
+.info-hotspot-text h3 {
+  font-family: var(--font-serif) !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: var(--text-dark) !important;
+  margin: 14px 18px 8px !important;
+  letter-spacing: 0.2px !important;
+}
+
+.info-hotspot-text p {
+  font-family: var(--font-sans) !important;
+  font-size: 13.5px !important;
+  font-weight: 300 !important;
+  line-height: 1.65 !important;
+  color: var(--text-mid) !important;
+  margin: 0 18px 14px !important;
+}
+
+.info-hotspot-text a {
+  display: block !important;
+  font-family: var(--font-sans) !important;
+  font-size: 12.5px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.5px !important;
+  color: var(--gold) !important;
+  text-decoration: none !important;
+  margin: 0 !important;
+  padding: 11px 18px 13px !important;
+  border-top: 1px solid var(--popup-sep) !important;
+  transition: background 0.2s ease !important;
+}
+
+.info-hotspot-text a:hover {
+  background: rgba(150, 120, 80, 0.08) !important;
+}
+
+/* =====================================================
+   ANIMAZIONE PULSAZIONE HOTSPOT
+   ===================================================== */
+.info-hotspot .info-hotspot-header::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  transform: translate(-50%, -50%) scale(0.9);
+  transform-origin: center center;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 1);
+  animation: pulseRing 2s infinite;
+  pointer-events: none;
+}
+
+.info-hotspot.visible .info-hotspot-header::after {
+  animation: none;
+}
+
+@keyframes pulseRing {
+  0%   { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; }
+  70%  { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+}
+/* =====================================================
+   FIX: impedisce al contenitore info-hotspot di
+   bloccare i click su link-hotspot sottostanti
+   ===================================================== */
+.info-hotspot {
+  pointer-events: none !important;
+}
+
+.info-hotspot .info-hotspot-header {
+  pointer-events: auto !important;
+}
+
+.info-hotspot.visible .info-hotspot-text {
+  pointer-events: auto !important;
+}

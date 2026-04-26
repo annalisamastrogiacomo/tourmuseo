@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Museo Capitolare di Atri</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    color: #2e2e2e;
+    background: #fff;
+  }
+
+  img { display: block; max-width: 100%; }
+  section { display: block; margin: 0; }
+
+  /* ===== HERO =====
+     aspect-ratio: 16/9 mantiene le proporzioni dell'immagine su tutti i
+     dispositivi senza usare height fissa o 100vh.
+     Su mobile si restringe proporzionalmente in automatico.
+     max-height evita che diventi troppo alta su schermi molto larghi. */
+  .hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 480px;
+  overflow: hidden;
+}
+
+  /* L'immagine riempie il contenitore mantenendo le proporzioni */
+  .hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Overlay scuro */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1;
+  }
+
+  /* Testo sovrapposto, centrato */
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 24px;
+  }
+
+  .hero-content h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 58px);
+    letter-spacing: 4px;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.6);
+    line-height: 1.1;
+  }
+
+  .hero-content p {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(16px, 2vw, 24px);
+    margin-top: 12px;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  /* ===== DECORAZIONE ORO ===== */
+  .gold-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 0 14px;
+  }
+  .gold-line::before,
+  .gold-line::after {
+    content: "";
+    flex: 1;
+    max-width: 70px;
+    height: 1px;
+    background: #c9ab81;
+  }
+
+  /* ===== SEZIONI ===== */
+  .section { padding: 100px 0; }
+  .section-gray { background-color: #f7f5f2; }
+
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  /* ===== TITOLO SEZIONE ===== */
+  .section-title {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+ .label {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #c9ab81;
+  margin-bottom: 12px;
+}
+
+  .section-title h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  /* ===== TWO COLUMN ===== */
+  .two-col {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    width: 100%;
+    min-height: 520px;
+  }
+
+  .two-col .col-img {
+    flex: 0 0 50%;
+    overflow: hidden;
+  }
+
+  .two-col .col-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .two-col .col-text {
+    flex: 0 0 50%;
+    padding: 60px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .two-col.reverse { flex-direction: row-reverse; }
+  .two-col.reverse .col-text { background: #f7f5f2; }
+
+  .two-col .col-text h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 400;
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+  }
+
+  .two-col .col-text p {
+    font-family: 'EB Garamond', serif;
+    font-size: 19px;
+    line-height: 1.85;
+    color: #444;
+    margin-bottom: 18px;
+  }
+
+  .two-col .col-text p:last-child { margin-bottom: 0; }
+
+  .section-intro .container { max-width: 860px; }
+
+  .section-intro p {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    line-height: 1.9;
+    color: #444;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .section-intro p strong {
+    color: #2e2e2e;
+    font-weight: 500;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: #111;
+    color: #999;
+    padding: 32px 60px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer span { color: #c9ab81; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .two-col, .two-col.reverse { flex-direction: column; }
+    .two-col .col-img { flex: 0 0 auto; height: 280px; }
+    .two-col .col-text { padding: 40px 28px; }
+    .section { padding: 70px 0; }
+    .footer { padding: 24px; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- HERO: immagine 16:9 con testo sovrapposto, compatibile su tutti i dispositivi -->
+<div class="hero">
+  <img src="../media/immagini/AFFRESCOPRINCIPALE.jpg" alt="Gli Affreschi abseidali">
+  <div class="hero__overlay"></div>
+  <div class="hero-content">
+    <h1>GLI AFFRESCHI DI ANDREA DE LITIO</h1>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="section section-intro">
+  <div class="container">
+    <div class="section-title">
+      <span class="label">Approfondimento</span>
+      <div class="gold-line"><h2>Ciclo pittorico</h2></div>
+    </div>
+   
+    <p style="text-align: justify;">
+      Gli affreschi della Cattedrale di Santa Maria Assunta rappresentano uno dei più importanti esempi di pittura rinascimentale nell’Italia centro-meridionale. Realizzati tra il 1460 e il 1470 dal pittore Andrea De Litio, decorano l’abside della chiesa e raccontano episodi della vita della Vergine Maria e dell’infanzia di Cristo.
+
+Attraverso queste immagini i fedeli potevano conoscere e comprendere i principali momenti della storia sacra. Allo stesso tempo, gli affreschi testimoniano l’arrivo delle innovazioni artistiche del Rinascimento anche in Abruzzo come l’uso della prospettiva e una rappresentazione più realistica degli spazi e delle figure.
+
+Le scene dipinte non hanno solo un valore religioso e artistico, ma raccontano anche la storia della città di Atri e delle famiglie che ne hanno guidato lo sviluppo nel corso dei secoli.
+    </p>
+  </div>
+</section>
+
+<!-- SEZIONE 1 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col reverse">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label">Pittura</span></div>
+      <h3>Vita di Maria (1460–1470)</h3>
+      <p style="text-align: justify;">Nel cuore della Cattedrale di Santa Maria Assunta si conserva uno dei più importanti cicli pittorici del Rinascimento nell’Italia centro-meridionale, realizzato tra il 1460 e il 1470 da Andrea De Litio.</p>
+      <p style="text-align: justify;">Tra le scene più rare vi è il racconto dell'Assunzione di Maria cui la cattedrale è intitolata. Particolari suggestivi sono l'ultimo saluto alla Vergine da parte degli Apostoli e l'incoronazione di Maria Regina del cielo e della terra.</p>
+   </div>
+    <div class="col-img">
+      <img src="../media/immagini/affresco2.jpg" alt="AFFRESCO ANDREA DE LITIO">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 2 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label">L'abside</span></div>
+      <h3>La prospettiva degli affreschi</h3>
+      <p style="text-align: justify;"> Uno degli aspetti più interessanti degli affreschi di Andrea De Litio è l’uso della prospettiva rinascimentale. Grazie a questa tecnica pittorica gli ambienti rappresentati sembrano avere profondità e tridimensionalità.</p>
+      <p style="text-align: justify;"> Nei pavimenti geometrici, nelle architetture e nelle linee è possibile osservare come l’artista organizzi lo spazio in modo ordinato, guidando lo sguardo dello spettatore verso il punto centrale della scena.</p>
+	  <p style="text-align: justify;">Questa attenzione alla costruzione dello spazio rappresenta una delle principali innovazioni pittoriche del Quattrocento e dimostra il contatto dell’autore con le correnti artistiche più moderne dell’epoca.</p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/AFFRESCO 3.1.jpg" alt="Le sale del Museo">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 3 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col reverse">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label">Patrimonio</span></div>
+      <h3>Arte, Potere, Devozione</h3>
+      <p style="text-align: justify;">Il ciclo pittorico della cattedrale non è soltanto un racconto religioso, ma anche una testimonianza della storia politica della città di Atri.</p>
+      <p style="text-align: justify;">La potente famiglia Acquaviva d’Aragona, che governava la città nel Quattrocento, volle infatti essere rappresentata all’interno delle scene sacre. Alcuni membri della famiglia compaiono tra i personaggi degli episodi evangelici, spesso identificati nei Re Magi o nei partecipanti ai grandi momenti della narrazione.</p>
+	  <p style="text-align: justify;">In questo modo gli affreschi uniscono arte, fede e potere, celebrando sia la storia sacra sia il prestigio della famiglia che dominava il territorio.<p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/AFFRESCO4.jpg" alt="Argenteria e collezioni">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span style="color:#fff;">© Studenti 3A Scienze Applicate – Polo Liceale Saffo, 2026 | In collaborazione con il Museo Capitolare di Atri</span>
+</footer>
+
+</body>
+</html>

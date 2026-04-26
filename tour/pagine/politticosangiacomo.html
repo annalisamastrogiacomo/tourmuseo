@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>san giacomo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    color: #2e2e2e;
+    background: #fff;
+  }
+
+  img { display: block; max-width: 100%; }
+  section { display: block; margin: 0; }
+
+  /* ===== HERO =====
+     aspect-ratio: 16/9 mantiene le proporzioni dell'immagine su tutti i
+     dispositivi senza usare height fissa o 100vh.
+     Su mobile si restringe proporzionalmente in automatico.
+     max-height evita che diventi troppo alta su schermi molto larghi. */
+  .hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 480px;
+  overflow: hidden;
+}
+
+  /* L'immagine riempie il contenitore mantenendo le proporzioni */
+  .hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Overlay scuro */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1;
+  }
+
+  /* Testo sovrapposto, centrato */
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 24px;
+  }
+
+  .hero-content h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 58px);
+    letter-spacing: 4px;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.6);
+    line-height: 1.1;
+  }
+
+  .hero-content p {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(16px, 2vw, 24px);
+    margin-top: 12px;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  /* ===== DECORAZIONE ORO ===== */
+  .gold-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 0 14px;
+  }
+  .gold-line::before,
+  .gold-line::after {
+    content: "";
+    flex: 1;
+    max-width: 70px;
+    height: 1px;
+    background: #c9ab81;
+  }
+
+  /* ===== SEZIONE ===== */
+  .section {
+    padding: 100px 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ===== TITOLO ===== */
+  .section-title {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .label {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #c9ab81;
+  margin-bottom: 12px;
+}
+
+  .section-title h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(26px, 3.5vw, 36px);
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  /* ===== TESTO ===== */
+  .container p {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    line-height: 1.95;
+    color: #444;
+    margin-bottom: 28px;
+  }
+
+  .container h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 400;
+    color: #2e2e2e;
+    margin: 60px 0 24px;
+    letter-spacing: 0.5px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #c9ab81;
+  }
+
+  /* ===== IMMAGINI ===== */
+  .container img {
+    width: 100%;
+    margin: 50px 0 14px;
+    border-radius: 2px;
+  }
+
+  .caption {
+    text-align: center;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #999;
+    margin-bottom: 44px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== CITAZIONE ===== */
+  blockquote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.7;
+    border-left: 2px solid #c9ab81;
+    padding: 8px 0 8px 24px;
+    margin: 50px 0;
+    color: #c9ab81;
+  }
+	blockquote cite {
+	  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #000;
+   text-align: center;
+}
+blockquote .author-role {
+  display: block;
+  margin-top: 4px;
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #444;
+  text-align: center;
+}
+  /* ===== VIDEO ===== */
+  .video-wrapper {
+    margin: 50px 0 14px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .video-wrapper video {
+    width: 100%;
+    display: block;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: #111;
+    color: #999;
+    padding: 32px 60px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer span { color: #ccc; }
+/* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .two-col, .two-col.reverse { flex-direction: column; }
+    .two-col .col-img { flex: 0 0 auto; height: 280px; }
+    .two-col .col-text { padding: 40px 28px; }
+    .section { padding: 70px 0; }
+    .footer { padding: 24px; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+
+<div class="hero">
+  <img src="../media/immagini/museo3.jpg" alt="museo">
+  <div class="hero__overlay"></div>
+  <div class="hero-content">
+    <h1>Il Polittico di San Giacomo</h1>
+  </div>
+</div>
+<!-- SEZIONE TESTO -->
+<section class="section">
+  <div class="container">
+
+    <div class="section-title">
+      <span class="label">Approfondimento</span>
+      <div class="gold-line"><h2>Caratteristiche</h2></div>
+    </div>
+
+    <p style="text-align: justify;">
+      Nel museo è conservato un polittico dedicato a Giacomo il Maggiore che presenta, accanto alla figura centrale del santo raffigurato a grandezza naturale, una serie di scene narrative che illustrano i suoi miracoli avvenuti dopo la morte. Tra questi episodi spicca il celebre miracolo dell’impiccato.
+
+    </p>
+
+    <img src="../media/immagini/coso.jpg" alt="polittico">
+    <div class="caption">Polittico di San Giacomo</div>
+
+    <p style="text-align: justify;">
+     La storia narra di una famiglia in pellegrinaggio verso Santiago: padre, madre e un giovane figlio. Durante il viaggio si fermano in una locanda, dove la servitrice si invaghisce del ragazzo. Di fronte al suo rifiuto, la donna, per vendicarsi, nasconde una coppa d’argento nella sua borsa e lo accusa di furto. Scoperto l’oggetto, il giovane viene condannato all’impiccagione.
+
+    </p>
+<p style="text-align: justify;">
+Mentre il ragazzo viene condotto al supplizio, i genitori disperati implorano il giudice di risparmiarlo, proclamandone l’innocenza. Il giudice, però, risponde con scherno che non lo salverà nemmeno se il pollo arrosto che sta mangiando dovesse improvvisamente tornare in vita e cantare.
+</p>
+    <p style="text-align: justify;">
+    A quel punto avviene il miracolo: il pollo si risveglia e canta, dimostrando l’ingiustizia della condanna. Contemporaneamente, San Giacomo interviene sostenendo il corpo del giovane già appeso al patibolo, impedendone la morte. Il miracolo rivela così la verità, smaschera l’inganno della servitrice e salva il pellegrino innocente, confermando il potere salvifico e la protezione di San Giacomo nei confronti dei fedeli.
+	</p>

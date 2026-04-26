@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Museo Capitolare di Atri</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    color: #2e2e2e;
+    background: #fff;
+  }
+
+  img { display: block; max-width: 100%; }
+  section { display: block; margin: 0; }
+
+  /* ===== HERO =====
+     aspect-ratio: 16/9 mantiene le proporzioni dell'immagine su tutti i
+     dispositivi senza usare height fissa o 100vh.
+     Su mobile si restringe proporzionalmente in automatico.
+     max-height evita che diventi troppo alta su schermi molto larghi. */
+  .hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  max-height: 480px;
+  overflow: hidden;
+}
+
+  /* L'immagine riempie il contenitore mantenendo le proporzioni */
+  .hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Overlay scuro */
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.18);
+    z-index: 1;
+  }
+
+  /* Testo sovrapposto, centrato */
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 24px;
+  }
+
+  .hero-content h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 58px);
+    letter-spacing: 4px;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.6);
+    line-height: 1.1;
+  }
+
+  .hero-content p {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(16px, 2vw, 24px);
+    margin-top: 12px;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  /* ===== DECORAZIONE ORO ===== */
+  .gold-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 0 14px;
+  }
+  .gold-line::before,
+  .gold-line::after {
+    content: "";
+    flex: 1;
+    max-width: 70px;
+    height: 1px;
+    background: #c9ab81;
+  }
+
+  /* ===== SEZIONI ===== */
+  .section { padding: 100px 0; }
+  .section-gray { background-color: #f7f5f2; }
+
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  /* ===== TITOLO SEZIONE ===== */
+  .section-title {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+ .label {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #c9ab81;
+  margin-bottom: 12px;
+}
+
+  .section-title h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  /* ===== TWO COLUMN ===== */
+  .two-col {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    width: 100%;
+    min-height: 520px;
+  }
+
+  .two-col .col-img {
+    flex: 0 0 50%;
+    overflow: hidden;
+  }
+
+  .two-col .col-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .two-col .col-text {
+    flex: 0 0 50%;
+    padding: 60px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+  }
+
+  .two-col.reverse { flex-direction: row-reverse; }
+  .two-col.reverse .col-text { background: #f7f5f2; }
+
+  .two-col .col-text h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 400;
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+  }
+
+  .two-col .col-text p {
+    font-family: 'EB Garamond', serif;
+    font-size: 19px;
+    line-height: 1.85;
+    color: #444;
+    margin-bottom: 18px;
+  }
+
+  .two-col .col-text p:last-child { margin-bottom: 0; }
+
+  .section-intro .container { max-width: 860px; }
+
+  .section-intro p {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    line-height: 1.9;
+    color: #444;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .section-intro p strong {
+    color: #2e2e2e;
+    font-weight: 500;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: #111;
+    color: #999;
+    padding: 32px 60px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer span { color: #c9ab81; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .two-col, .two-col.reverse { flex-direction: column; }
+    .two-col .col-img { flex: 0 0 auto; height: 280px; }
+    .two-col .col-text { padding: 40px 28px; }
+    .section { padding: 70px 0; }
+    .footer { padding: 24px; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- HERO: immagine 16:9 con testo sovrapposto, compatibile su tutti i dispositivi -->
+<div class="hero">
+  <img src="../media/immagini/fotoarmadi.jpeg" alt="Il Chiostro Benedettino di Atri">
+  <div class="hero__overlay"></div>
+  <div class="hero-content">
+    <h1>Armadi da Sacrestia</h1>
+    <p>Arte e Martirio</p>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="section section-intro">
+  <div class="container">
+    <div class="section-title">
+      <span class="label">Approfondimenti</span>
+      <div class="gold-line"><h2>Le figure sacre</h2></div>
+    </div>
+    <p style="text-align: justify;">
+     Negli armadi espositivi si trovano figure sacre e simboliche, tra cui sante legate a protezioni specifiche o al martirio, e virtù morali come Giustizia, Temperanza, Prudenza e Fortezza. Le sante sono spesso rappresentate con attributi che ne richiamano la vita e la morte.
+    </p>
+    <p style="text-align: justify;">
+       Tra le statue compare anche un missionario gesuita, il Beato Rodolfo, figlio dei duchi della città, raffigurato con raggi luminosi prima della sua beatificazione.
+    </p>
+  </div>
+</section>
+
+<!-- SEZIONE 1 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col reverse">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label">Simbolo di Luce</span></div>
+      <h3>Santa Lucia</h3>
+      <p style="text-align: justify;">Santa Lucia, vissuta nel IV secolo a Siracusa, era una giovane cristiana famosa per la sua fede. Subì il martirio durante le persecuzioni di Diocleziano, simboleggiando la totale dedizione a Dio. Il suo nome, che significa “luce”, ne fa la protettrice della vista e degli occhi.</p>
+      <p style="text-align: justify;">Nelle rappresentazioni iconografiche è raffigurata con candela accesa e dal 1600 con occhi su un piatto, simboli della luce spirituale e della protezione della vista. La sua festa si celebra il 13 dicembre, con devozione in Sicilia e nei Paesi del Nord Europa.</p>
+   </div>
+    <div class="col-img">
+      <img src="../media/immagini/santalucia.jpg" alt="gghjho">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 2 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label"> Simbolo di purezza e innocenza</span></div>
+      <h3>Sant' Agnese</h3>
+      <p style="text-align: justify;">Sant’Agnese è una giovane martire cristiana di Roma, vissuta nel III secolo d.C. Fin da piccola consacrò la sua vita a Dio, rifiutando matrimonio e compromessi con la società pagana dell’epoca. Durante le persecuzioni dell’imperatore Diocleziano, fu arrestata e martirizzata a soli 12 o 13 anni per la sua fede.</p>
+      <p style="text-align: justify;">È venerata come simbolo di purezza e innocenza, spesso raffigurata nell’arte con un agnello e la palma del martirio. La sua memoria liturgica cade il 21 gennaio, giorno in cui la Chiesa celebra la sua dedizione e il suo esempio di coraggio. Sant’Agnese è anche protettrice dei giovani e delle fanciulle, e la sua storia continua a ispirare fedeli e artisti nel corso dei secoli.</p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/santaagnese.JPG" alt="Le sale del Museo">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 3 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col reverse">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label">Simbolo di resistenza</span></div>
+      <h3>Santa Apollonia</h3>
+      <p style="text-align: justify;">Santa Apollonia fu una martire cristiana di Alessandria d’Egitto nel III secolo d.C. Durante le persecuzioni contro i cristiani, subì torture atroci, tra cui lo strappo dei denti, e preferì il martirio piuttosto che rinnegare la fede.</p>
+      <p style="text-align: justify;">È venerata come simbolo di coraggio e fedeltà a Dio, spesso raffigurata con una pinza o un dente e la palma del martirio. La sua memoria liturgica cade il 9 febbraio e la sua protezione è invocata contro le malattie dei denti e della bocca.</p>
+	  <p style="text-align: justify;">Santa Apollonia è anche considerata un modello di forza interiore di fronte alla sofferenza, e la sua figura ha ispirato numerose opere d’arte e devozioni popolari in Europa e nel Nord Africa.</p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/santapollonia.JPG" alt="Argenteria e collezioni">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 4 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label"> Simbolo di purezza e protezione</span></div>
+      <h3>Sant' Agata</h3>
+      <p style="text-align: justify;">Sant’Agata fu una martire cristiana di Catania nel III secolo d.C. Fin da giovane consacrò la sua vita a Dio, rifiutando il matrimonio e le pressioni di un funzionario romano, e per questo subì torture atroci, tra cui lo strappo delle mammelle.</p>
+      <p style="text-align: justify;">È venerata come simbolo di coraggio, purezza e fedeltà a Dio, spesso raffigurata con due mammelle su un piatto e la palma del martirio. La sua memoria liturgica cade il 5 febbraio e la sua protezione è invocata dalle donne, dalle ostetriche e da chi soffre di malattie al seno. Sant’Agata è anche patrona della città di Catania, e la sua vita continua a ispirare fede, devozione e opere d’arte sacra in tutta Italia e nel mondo.</p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/santagata.JPG" alt="Le sale del Museo">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 5 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col reverse">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label">Modello di coraggio, fedeltà e impegno</span></div>
+      <h3>Beato Rodolfo Acquaviva</h3>
+      <p style="text-align: justify;">Beato Rodolfo Acquaviva (1550‑1583) fu un gesuita e missionario italiano nato ad Atri dalla famiglia ducale. Entrò nella Compagnia di Gesù nel 1568 e si formò a Roma in filosofia e teologia. Dopo l’ordinazione sacerdotale, partì per l’India, dove inizialmente insegnò a Goa e poi fu inviato alla corte dell’imperatore Akbar per promuovere il dialogo religioso e diffondere il cristianesimo.</p>
+      <p style="text-align: justify;">Nonostante gli sforzi, la missione incontrò grandi difficoltà e Rodolfo decise di concentrarsi sulle comunità locali nella regione di Salsette. Nel luglio del 1583, durante una rivolta locale contro l’imposizione della croce e la presenza dei missionari, Rodolfo e quattro confratelli furono brutalmente uccisi mentre pregavano, offrendo la vita per la loro fede.</p>
+	  <p style="text-align: justify;">Per il suo martirio e la dedizione missionaria, fu beatificato da Papa Leone XIII nel 1893, e la sua memoria è celebrata il 15 luglio. È ricordato come modello di coraggio, fedeltà e impegno missionario.</p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/beatorodolfo.JPG" alt="Argenteria e collezioni">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 6 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label"> Simbolo di equità, rettitudine e rispetto dei diritti altrui</span></div>
+      <h3>Giustizia</h3>
+      <p style="text-align: justify;">La giustizia è la virtù che guida l’uomo a dare a ciascuno ciò che gli spetta, rispettando i diritti, i doveri e la dignità altrui. Non si limita al rispetto delle leggi, ma richiede equità, onestà e integrità nelle azioni quotidiane.</p>
+      <p style="text-align: justify;">Si manifesta a livello personale, sociale e politico, regolando i rapporti tra le persone secondo il bene comune. Filosofi come Aristotele e teologi come San Tommaso d’Aquino l’hanno definita una virtù fondamentale per la vita morale.</p>
+	  <p style="text-align: justify;">Praticare la giustizia significa agire con imparzialità, responsabilità e rettitudine, anche di fronte a sacrifici o pressioni esterne. È indispensabile per costruire rapporti umani equilibrati, una società civile armoniosa e una vita personale virtuosa.</p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/giustizia.JPG" alt="Le sale del Museo">
+    </div>
+  </div>
+</section>
+
+<!-- SEZIONE 7 -->
+<section style="display:block;margin:0;padding:0;">
+  <div class="two-col reverse">
+    <div class="col-text">
+      <div class="gold-line" style="justify-content:flex-start;"><span class="label">Simbolo di equilibrio, moderazione e autocontrollo</span></div>
+      <h3>Temperanza</h3>
+      <p style="text-align: justify;">La temperanza è la virtù che permette di controllare i desideri e le passioni, evitando eccessi e carenze. Aiuta a mantenere equilibrio nella vita quotidiana, moderando piaceri, emozioni e bisogni materiali in armonia con la ragione e la morale.</p>
+      <p style="text-align: justify;">Non significa reprimere i desideri, ma guidarli verso il bene e il giusto, evitando indulgenze dannose o privazioni eccessive. Filosofi e teologi, come Aristotele e San Tommaso d’Aquino, l’hanno definita fondamentale per una vita virtuosa, perché consente di agire con equilibrio, rettitudine e responsabilità.</p>
+	  <p style="text-align: justify;">La temperanza favorisce l’autocontrollo, sostiene le altre virtù cardinali e promuove la serenità interiore, rendendo possibile una convivenza civile equilibrata e armoniosa.</p>
+    </div>
+    <div class="col-img">
+      <img src="../media/immagini/temperanza.JPG" alt="Argenteria e collezioni">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span style="color:#fff;">© Studenti 3A Scienze Applicate – Polo Liceale Saffo, 2026 | In collaborazione con il Museo Capitolare di Atri</span>
+</footer>
+
+</body>
+</html>
