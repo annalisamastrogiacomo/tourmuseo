@@ -262,6 +262,10 @@ body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); 
   width: 100%;
   height: 100%;
   left: -100%;
+  background: var(--panel-bg-dark);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow-y: auto;
 }
 
 #sceneList .scenes {
@@ -272,7 +276,14 @@ body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); 
   border-right: 1px solid var(--gold-200);
 }
 
-.mobile #sceneList .scenes { height: 100%; }
+.mobile #sceneList .scenes { 
+  min-height: 100%;
+  height: auto;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-right: none;
+}
 
 #sceneList.enabled        { margin-left: 220px; }
 .mobile #sceneList.enabled { margin-left: 100%; }
