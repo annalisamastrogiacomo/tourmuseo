@@ -85,10 +85,10 @@
 	'11-museo_reliquie -> 17-giardino_museo': { yaw: 0.1257, pitch: -0.0268 },
 	'12-museo_armadi -> 13-museo_polittico': { yaw: 2.6963, pitch: 0.0211 },
 	'14-museo_quadri -> 13-museo_polittico': { yaw: 2.6963, pitch: 0.0211 },
-	'2-palazzo_comunale -> 1-cisterna_comune2': { yaw: -0.0861, pitch: -0.0545 },
+	'2-palazzo_comunale -> 1-cisterna_comune2': { yaw: -2.2530, pitch: 0.1370 },
 	'1-cisterna_comune2 -> 0-cisterna_comune': { yaw: 1.9309, pitch: -0.1232 },
 	'1-cisterna_comune2 -> 2-palazzo_comunale': { yaw: -0.2203, pitch: 0.0152 },
-	'0-cisterna_comune -> 1-cisterna_comune2': { yaw: -2.2313, pitch: -0.2033 },
+	'0-cisterna_comune -> 1-cisterna_comune2': { yaw: 0.1788, pitch: 0.0796 },
 	'18-cisterna_museo -> 17-giardino_museo': { yaw: 0.1257, pitch: -0.0268 },
   };
 
