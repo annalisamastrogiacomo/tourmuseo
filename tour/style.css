@@ -122,35 +122,11 @@ body.multiple-scenes.mobile #titleBar    { left: var(--ctrl-size-mob); }
 .mobile #titleBar .sceneName { font-size: 14px; }
 
 /* =====================================================
-   PULSANTE FULLSCREEN
+   PULSANTI BARRA SUPERIORE: FULLSCREEN + AUTOROTATE
+   (regole comuni consolidate)
    ===================================================== */
-#fullscreenToggle {
-  display: none;
-  position: absolute;
-  top: 0; right: 0;
-  width: var(--ctrl-size);
-  height: var(--ctrl-size);
-  padding: 0;
-  background: var(--panel-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--gold-300);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 0.2s ease;
-}
-
-.mobile #fullscreenToggle {
-  width: var(--ctrl-size-mob);
-  height: var(--ctrl-size-mob);
-}
-
-body.fullscreen-enabled #fullscreenToggle { display: block; }
-
-/* =====================================================
-   PULSANTE AUTOROTATE
-   ===================================================== */
+#fullscreenToggle,
 #autorotateToggle {
-  display: block;
   position: absolute;
   top: 0; right: 0;
   width: var(--ctrl-size);
@@ -164,15 +140,20 @@ body.fullscreen-enabled #fullscreenToggle { display: block; }
   transition: background 0.2s ease;
 }
 
+#fullscreenToggle { display: none; }
+#autorotateToggle { display: block; }
+
+.mobile #fullscreenToggle,
 .mobile #autorotateToggle {
   width: var(--ctrl-size-mob);
   height: var(--ctrl-size-mob);
 }
 
+body.fullscreen-enabled #fullscreenToggle        { display: block; }
 body.fullscreen-enabled #autorotateToggle        { right: var(--ctrl-size); }
 body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); }
 
-/* Icone condivise tra i pulsanti controllo */
+/* Icone condivise */
 #fullscreenToggle .icon,
 #autorotateToggle .icon {
   position: absolute;
@@ -193,14 +174,15 @@ body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); 
 .no-touch #fullscreenToggle:hover .icon,
 .no-touch #autorotateToggle:hover .icon { opacity: 1; }
 
+/* Stato on/off */
 #fullscreenToggle .icon.on,
-#autorotateToggle .icon.on             { display: none; }
+#autorotateToggle .icon.on              { display: none; }
 #fullscreenToggle .icon.off,
-#autorotateToggle .icon.off            { display: block; }
+#autorotateToggle .icon.off             { display: block; }
 #fullscreenToggle.enabled .icon.on,
-#autorotateToggle.enabled .icon.on     { display: block; }
+#autorotateToggle.enabled .icon.on      { display: block; }
 #fullscreenToggle.enabled .icon.off,
-#autorotateToggle.enabled .icon.off    { display: none; }
+#autorotateToggle.enabled .icon.off     { display: none; }
 
 /* =====================================================
    SCENE LIST TOGGLE
@@ -276,7 +258,7 @@ body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); 
   border-right: 1px solid var(--gold-200);
 }
 
-.mobile #sceneList .scenes { 
+.mobile #sceneList .scenes {
   min-height: 100%;
   height: auto;
   background: transparent;
@@ -321,10 +303,10 @@ body.single-scene #sceneListToggle { display: none; }
 
 .mobile #sceneList .scene .text { line-height: 48px; }
 
-.no-touch #sceneList .scene:hover              { background: rgba(201, 171, 129, 0.12); }
-.no-touch #sceneList .scene:hover .text        { color: var(--text-light); }
-#sceneList .scene.current                      { background: var(--gold-100); }
-#sceneList .scene.current .text                { color: var(--text-light); }
+.no-touch #sceneList .scene:hover       { background: rgba(201, 171, 129, 0.12); }
+.no-touch #sceneList .scene:hover .text { color: var(--text-light); }
+#sceneList .scene.current               { background: var(--gold-100); }
+#sceneList .scene.current .text         { color: var(--text-light); }
 
 /* =====================================================
    LINK HOTSPOT
@@ -350,11 +332,13 @@ body.single-scene #sceneListToggle { display: none; }
   cursor: pointer;
 }
 
+/* FIX MOBILE: su schermi ≤500px la freccia NON si riduce
+   (il breakpoint coincide con il passaggio a .mobile di Marzipano,
+   quindi l'icona deve rimanere grande per essere toccabile) */
 @media (max-width: 500px) {
   .link-hotspot-icon {
-    width: 28px; height: 28px;
-    line-height: 28px;
-    font-size: 14px !important;
+    width: 52px; height: 52px;
+    line-height: 52px;
   }
 }
 
@@ -401,6 +385,7 @@ body.single-scene #sceneListToggle { display: none; }
 .info-hotspot {
   line-height: 1.2em;
   opacity: 0.9;
+  pointer-events: none !important;
   transition: opacity 0.2s 0.2s;
 }
 
@@ -538,9 +523,7 @@ body.single-scene #sceneListToggle { display: none; }
 
 /* Header nascosto: gli elementi interni sono tutti display:none,
    il div vuoto creerebbe un rettangolo indesiderato */
-.info-hotspot-modal .info-hotspot-header {
-  display: none !important;
-}
+.info-hotspot-modal .info-hotspot-header { display: none !important; }
 
 /* Testo occupa tutta l'area senza l'header sopra */
 .info-hotspot-modal .info-hotspot-text {
@@ -587,7 +570,6 @@ body.single-scene #sceneListToggle { display: none; }
   -webkit-user-select: text;
 }
 
-/* Bottone chiudi originale Marzipano nel modal */
 .info-hotspot-modal .info-hotspot-close-wrapper {
   position: absolute;
   top: 0; right: 0;
@@ -650,16 +632,12 @@ body.view-control-buttons .viewControlButton { display: block; }
 .viewControlButton-6 { margin-left:   79px; }
 
 /* =====================================================
-   TEMA MUSEO — HOTSPOT CERCHIO PULSANTE
+   TEMA MUSEO — elementi Marzipano non usati
    ===================================================== */
-
-/* Nasconde elementi originali Marzipano non usati */
 .info-hotspot-icon-wrapper,
 .info-hotspot-title-wrapper,
 .info-hotspot-close-wrapper,
-.info-hotspot-close-icon {
-  display: none !important;
-}
+.info-hotspot-close-icon { display: none !important; }
 
 /* Cerchio hotspot */
 .info-hotspot .info-hotspot-header {
@@ -676,6 +654,8 @@ body.view-control-buttons .viewControlButton { display: block; }
     0 6px 18px rgba(0, 0, 0, 0.5) !important;
   transition: transform 0.25s ease, box-shadow 0.25s ease !important;
 }
+
+.info-hotspot .info-hotspot-header { pointer-events: auto !important; }
 
 .desktop.no-touch .info-hotspot:not(.visible) .info-hotspot-header:hover {
   transform: scale(1.25) !important;
@@ -740,6 +720,8 @@ body.view-control-buttons .viewControlButton { display: block; }
     visibility 0s 0s !important;
 }
 
+.info-hotspot.visible .info-hotspot-text { pointer-events: auto !important; }
+
 /* =====================================================
    BOTTONE CHIUDI CUSTOM (desktop e mobile)
    ===================================================== */
@@ -774,7 +756,7 @@ body.view-control-buttons .viewControlButton { display: block; }
   background: rgba(201, 171, 129, 0.3) !important;
 }
 
-/* Bottone ✕ nel modal mobile: sfondo solido per leggibilità su sfondo chiaro */
+/* Bottone ✕ nel modal mobile */
 .info-hotspot-modal .custom-close-btn {
   position: fixed !important;
   top: 24px !important;
@@ -862,27 +844,10 @@ body.view-control-buttons .viewControlButton { display: block; }
   pointer-events: none;
 }
 
-.info-hotspot.visible .info-hotspot-header::after {
-  animation: none;
-}
+.info-hotspot.visible .info-hotspot-header::after { animation: none; }
 
 @keyframes pulseRing {
   0%   { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; }
   70%  { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
   100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
-}
-/* =====================================================
-   FIX: impedisce al contenitore info-hotspot di
-   bloccare i click su link-hotspot sottostanti
-   ===================================================== */
-.info-hotspot {
-  pointer-events: none !important;
-}
-
-.info-hotspot .info-hotspot-header {
-  pointer-events: auto !important;
-}
-
-.info-hotspot.visible .info-hotspot-text {
-  pointer-events: auto !important;
 }
