@@ -168,11 +168,12 @@ body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); 
 .mobile #fullscreenToggle .icon,
 .mobile #autorotateToggle .icon { width: 24px; height: 24px; }
 
-.no-touch #fullscreenToggle:hover,
-.no-touch #autorotateToggle:hover { opacity: 1; }
-
-.no-touch #fullscreenToggle:hover .icon,
-.no-touch #autorotateToggle:hover .icon { opacity: 1; }
+@media (hover: hover) {
+  #fullscreenToggle:hover,
+  #autorotateToggle:hover { opacity: 1; }
+  #fullscreenToggle:hover .icon,
+  #autorotateToggle:hover .icon { opacity: 1; }
+}
 
 /* Stato on/off */
 #fullscreenToggle .icon.on,
@@ -218,7 +219,9 @@ body.fullscreen-enabled.mobile #autorotateToggle { right: var(--ctrl-size-mob); 
   transition: opacity 0.2s ease;
 }
 
-.no-touch #sceneListToggle:hover .icon { opacity: 1; }
+@media (hover: hover) {
+  #sceneListToggle:hover .icon { opacity: 1; }
+}
 
 #sceneListToggle .icon.on          { display: none; }
 #sceneListToggle .icon.off         { display: block; }
@@ -303,8 +306,10 @@ body.single-scene #sceneListToggle { display: none; }
 
 .mobile #sceneList .scene .text { line-height: 48px; }
 
-.no-touch #sceneList .scene:hover       { background: rgba(201, 171, 129, 0.12); }
-.no-touch #sceneList .scene:hover .text { color: var(--text-light); }
+@media (hover: hover) {
+  #sceneList .scene:hover       { background: rgba(201, 171, 129, 0.12); }
+  #sceneList .scene:hover .text { color: var(--text-light); }
+}
 #sceneList .scene.current               { background: var(--gold-100); }
 #sceneList .scene.current .text         { color: var(--text-light); }
 
@@ -319,7 +324,9 @@ body.single-scene #sceneListToggle { display: none; }
   transition: opacity 0.2s;
 }
 
-.no-touch .link-hotspot:hover { opacity: 1; }
+@media (hover: hover) {
+  .link-hotspot:hover:hover { opacity: 1; }
+}
 
 .mobile .link-hotspot {
   width: 70px; height: 70px;
@@ -371,15 +378,39 @@ body.single-scene #sceneListToggle { display: none; }
   transition: transform 0.3s, opacity 0.3s;
 }
 
-.no-touch .link-hotspot:hover .link-hotspot-tooltip {
+@media (hover: hover) {
+  .link-hotspot:hover .link-hotspot-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+}
+
+/* MOBILE: tooltip sempre visibile, compatto, centrato sotto la freccia */
+.mobile .link-hotspot-tooltip {
+  left: 50%;
+  top: calc(100% - 12px);
+  margin-left: 0;
+  transform: translateX(-50%);
   opacity: 1;
-  transform: translateX(0);
-  pointer-events: all;
+  pointer-events: none;
+  font-size: 10px;
+  font-weight: 400;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border-top-width: 2px;
+  max-width: 120px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 /* Fallback IE8-10 */
 .tooltip-fallback .link-hotspot-tooltip { display: none; }
-.no-touch .tooltip-fallback .link-hotspot:hover .link-hotspot-tooltip { display: block; }
+@media (hover: hover) {
+  .tooltip-fallback .link-hotspot:hover .link-hotspot-tooltip { display: block; }
+}
 
 /* =====================================================
    INFO HOTSPOT — base Marzipano (desktop)
@@ -391,9 +422,11 @@ body.single-scene #sceneListToggle { display: none; }
   transition: opacity 0.2s 0.2s;
 }
 
-.no-touch .info-hotspot:hover {
+@media (hover: hover) {
+  .info-hotspot:hover:hover {
   opacity: 1;
   transition: opacity 0.2s;
+}
 }
 
 .info-hotspot.visible { opacity: 1; }
@@ -411,16 +444,20 @@ body.single-scene #sceneListToggle { display: none; }
   border-radius: 25px;
 }
 
-.desktop.no-touch .info-hotspot .info-hotspot-header:hover {
+.desktop@media (hover: hover) {
+  .info-hotspot .info-hotspot-header:hover:hover {
   width: 260px; border-radius: 5px;
   transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
 }
+}
 
 .desktop .info-hotspot.visible .info-hotspot-header,
-.desktop.no-touch .info-hotspot.visible .info-hotspot-header:hover {
+.desktop@media (hover: hover) {
+  .info-hotspot.visible .info-hotspot-header:hover:hover {
   width: 260px;
   border-radius: 5px 0 0 0;
   transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+}
 }
 
 .info-hotspot .info-hotspot-icon-wrapper { width: 40px; height: 40px; }
@@ -435,10 +472,16 @@ body.single-scene #sceneListToggle { display: none; }
   transition: width 0s 0.4s, padding 0s 0.4s;
 }
 
-.desktop .info-hotspot.visible .info-hotspot-title-wrapper,
-.desktop.no-touch .info-hotspot .info-hotspot-header:hover .info-hotspot-title-wrapper {
+.desktop .info-hotspot.visible .info-hotspot-title-wrapper {
   width: 220px; padding: 0 5px;
   transition: width 0s 0.4s, padding 0s 0.4s;
+}
+
+@media (hover: hover) {
+  .desktop .info-hotspot .info-hotspot-header:hover .info-hotspot-title-wrapper {
+    width: 220px; padding: 0 5px;
+    transition: width 0s 0.4s, padding 0s 0.4s;
+  }
 }
 
 .info-hotspot .info-hotspot-title-wrapper:before {
@@ -605,9 +648,11 @@ body.single-scene #sceneListToggle { display: none; }
 
 body.view-control-buttons .viewControlButton { display: block; }
 
-.no-touch .viewControlButton:hover {
+@media (hover: hover) {
+  .viewControlButton:hover:hover {
   background: rgba(201, 171, 129, 0.2) !important;
   border-color: var(--gold-600);
+}
 }
 
 @media (max-width: 600px) {
@@ -624,7 +669,9 @@ body.view-control-buttons .viewControlButton { display: block; }
   transition: opacity 0.2s ease;
 }
 
-.no-touch .viewControlButton:hover .icon { opacity: 1; }
+@media (hover: hover) {
+  .viewControlButton:hover .icon { opacity: 1; }
+}
 
 .viewControlButton-1 { margin-left: -141px; }
 .viewControlButton-2 { margin-left:  -97px; }
@@ -659,12 +706,14 @@ body.view-control-buttons .viewControlButton { display: block; }
 
 .info-hotspot .info-hotspot-header { pointer-events: auto !important; }
 
-.desktop.no-touch .info-hotspot:not(.visible) .info-hotspot-header:hover {
+.desktop@media (hover: hover) {
+  .info-hotspot:not(.visible) .info-hotspot-header:hover:hover {
   transform: scale(1.25) !important;
   box-shadow:
     0 0 0 7px rgba(255, 255, 255, 0.6),
     0 0 24px rgba(255, 255, 255, 0.5),
     0 8px 22px rgba(0, 0, 0, 0.6) !important;
+}
 }
 
 /* =====================================================
@@ -754,8 +803,10 @@ body.view-control-buttons .viewControlButton { display: block; }
   transition: background 0.15s ease !important;
 }
 
-.desktop.no-touch .custom-close-btn:hover {
+.desktop@media (hover: hover) {
+  .custom-close-btn:hover:hover {
   background: rgba(201, 171, 129, 0.3) !important;
+}
 }
 
 /* Bottone ✕ nel modal mobile */
